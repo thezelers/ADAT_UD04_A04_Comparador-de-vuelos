@@ -17,7 +17,7 @@ var port = process.env.PORT || 1488; // set our port
 // DATABASE SETUP
 var mongoose = require('mongoose');
 // 27017
-mongoose.connect('mongodb://localhost:12345/vuelos'); // connect to our database
+mongoose.connect('mongodb://localhost:27017/vuelos'); // connect to our database
 
 // Handle the connection event
 var db = mongoose.connection;
