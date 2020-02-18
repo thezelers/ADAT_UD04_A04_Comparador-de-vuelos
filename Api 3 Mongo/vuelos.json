@@ -1,0 +1,1 @@
+{"_id":{"$oid":"5e4a87b346233ca92225b0e6"},"idVuelo":"F567","origen":"Madrid","destino":"Nowhere","fecha":"2020-02-02","hora":"16:10","precio":265.0,"plazasTotales":30.0,"plazasDisponibles":2.0}
