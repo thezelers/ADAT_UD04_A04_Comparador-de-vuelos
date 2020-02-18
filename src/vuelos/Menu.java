@@ -7,6 +7,14 @@ import api.VuelosPHP;
 
 public class Menu {
 	VuelosNode vN ;
+	VuelosPHP vP ;
+	VuelosNode vNM;
+	public VuelosNode getvNM() {
+		return vNM;
+	}
+	public void setvNM(VuelosNode vNM) {
+		this.vNM = vNM;
+	}
 	public VuelosNode getvN() {
 		return vN;
 	}
@@ -19,7 +27,7 @@ public class Menu {
 	public void setvP(VuelosPHP vP) {
 		this.vP = vP;
 	}
-	VuelosPHP vP ;
+	
 	public void menuShow() {
 		String option = "", fecha = "", origen = "", destino = "", id = "";
 
@@ -117,7 +125,7 @@ public class Menu {
 				origen = sc111.nextLine();
 				System.out.println("destino:");
 				destino = sc111.nextLine();
-				vN.origenDestino(fecha, origen, destino);
+				vNM.origenDestino(fecha, origen, destino);
 
 				break;
 			case "2":
@@ -125,13 +133,13 @@ public class Menu {
 				fecha = sc111.nextLine();
 				System.out.println("origen:");
 				origen = sc111.nextLine();
-				vN.cualquierDestino(fecha, origen);
+				vNM.cualquierDestino(fecha, origen);
 
 				break;
 			case "3":
 				System.out.println("ID:");
 				id = sc111.nextLine();
-				vN.comprarPlaza(id);
+				vNM.comprarPlaza(id);
 
 				break;
 			default:
