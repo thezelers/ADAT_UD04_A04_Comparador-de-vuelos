@@ -138,7 +138,7 @@ public class Menu {
 				break;
 			case "3":
 				System.out.println("ID:");
-				id = sc111.nextLine();
+				id = sc111.nextLine();	 
 				vNM.comprarPlaza(id);
 
 				break;
