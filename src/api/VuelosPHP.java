@@ -64,11 +64,6 @@ public class VuelosPHP implements ApiVuelos {
 		return null;
 	}
 
-	public static void main(String[] args) {
-		VuelosPHP v = new VuelosPHP();
-		v.origenDestino("2020-02-18", "Madrid", "Barcelona");
-		v.cualquierDestino("2020-02-18", "Madrid");
-		v.comprarPlaza("1");
-	}
+
 
 }

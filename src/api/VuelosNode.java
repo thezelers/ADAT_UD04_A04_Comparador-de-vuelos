@@ -7,13 +7,18 @@ import okhttp3.Request;
 import vuelos.ApiVuelos;
 
 public class VuelosNode implements ApiVuelos {
+	
+	String puerto="";
+	public VuelosNode(String puerto) {
+		this.puerto = puerto;
+	}
 
 	@Override
 	public String origenDestino(String fecha, String origen, String destino) {
 		 OkHttpClient client = new OkHttpClient().newBuilder()
 			      .build();
 			    Request request = new Request.Builder()
-			      .url("http://localhost:420/vuelos/"+fecha+"/"+origen+"/"+destino)
+				.url("http://localhost:"+puerto+"/vuelos/"+fecha+"/"+origen+"/"+destino)
 			      .method("GET", null)
 			      .build();
 			    Response response;
@@ -34,7 +39,7 @@ public class VuelosNode implements ApiVuelos {
 		OkHttpClient client = new OkHttpClient().newBuilder()
 			      .build();
 			    Request request = new Request.Builder()
-			      .url("http://localhost:420/vuelos/"+fecha+"/"+origen)
+			      .url("http://localhost:"+puerto+"/vuelos/"+fecha+"/"+origen)
 			      .method("GET", null)
 			      .build();
 			    Response response;
@@ -57,7 +62,7 @@ public class VuelosNode implements ApiVuelos {
 			    MediaType mediaType = MediaType.parse("text/plain");
 			    RequestBody body = RequestBody.create(mediaType, "");
 			    Request request = new Request.Builder()
-			      .url("http://localhost:420/vuelos/"+id)
+			      .url("http://localhost:"+puerto+"/vuelos/"+id)
 			      .method("PUT", body)
 			      .build();
 			    Response response;
@@ -73,12 +78,7 @@ public class VuelosNode implements ApiVuelos {
 	}
 	
 
-public static void main(String[] args) {
-	VuelosNode v = new VuelosNode();
-	v.origenDestino("2020-02-02", "Madrid", "Nowhere");
-	v.cualquierDestino("2020-02-03", "Madrid");
-	v.comprarPlaza("F568");
-}
+
 	
 	
 
