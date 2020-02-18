@@ -19,10 +19,10 @@
 		$fecha = $_GET["fecha"];
 		if (isset($_GET["destino"])) {
 			$destino = $_GET["destino"];
-			$sql = "SELECT * FROM Vuelos WHERE origen=\"$origen\" AND fecha=\"$fecha\" AND destino=\"$destino\"";
+			$sql = "SELECT * FROM Vuelos2 WHERE origen=\"$origen\" AND fecha=\"$fecha\" AND destino=\"$destino\"";
 		}
 		else {
-			$sql = "SELECT * FROM Vuelos WHERE origen=\"$origen\" AND fecha=\"$fecha\"";
+			$sql = "SELECT * FROM Vuelos2 WHERE origen=\"$origen\" AND fecha=\"$fecha\"";
 		}
 		$result = $conn->query($sql);
 		$vuelos = array();

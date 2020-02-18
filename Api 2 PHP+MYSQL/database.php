@@ -2,6 +2,6 @@
 	$servername = "localhost";
 	$user = "root";
 	$password = "";
-	$database = "ADAT_UD5_Vuelos";
+	$database = "adat1";
 	$conn = new mysqli($servername,$user,$password,$database);
 ?>
