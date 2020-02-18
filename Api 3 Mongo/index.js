@@ -12,11 +12,12 @@ var app        = express();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-var port     = process.env.PORT || 1488; // set our port
+var port = process.env.PORT || 1488; // set our port
 
 // DATABASE SETUP
-var mongoose   = require('mongoose');
-mongoose.connect('mongodb://localhost:27017/vuelos'); // connect to our database
+var mongoose = require('mongoose');
+// 27017
+mongoose.connect('mongodb://localhost:12345/vuelos'); // connect to our database
 
 // Handle the connection event
 var db = mongoose.connection;
@@ -29,74 +30,93 @@ db.once('open', function() {
 // Bear models lives here
 var Vuelo = require('../Api 3 Mongo/models/vuelo');
 
-
 	// get all the bears (accessed at GET http://localhost:8080/api/bears)
 	app.get("/vuelos", (req, res)=>{
-		Vuelo.find({}).toArray(function(err, vuelos) {
-			if (err)
-				res.send(err);
-			res.json(vuelos);
-		});
-	});
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    var myResult;
 
-	
-	
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("vuelos");
+      var query = { };
+      dbo.collection("vuelos").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        myResult = result;
+        db.close();
+      });
+    });
+    res.json(myResult);
+});
+
 	app.get("/vuelos/:fecha/:origen/:destino", (req, res)=>{
-	    	//var query = { fecha: '${req.params.fecha}' };
-	    	  Vuelo.find({ "fecha": 2020-02-02 }).toArray(function(err, result, fields) {
-	    	if (err)
-				res.send(err);
-			res.json(result);
-		});
-	});
-	
-	
-	
-	
-	/*// get the bear with that id
-	.get(function(req, res) {
-		Bear.findById(req.params.bear_id, function(err, bear) {
-			if (err)
-				res.send(err);
-			res.json(bear);
-		});
-	})
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    var myResult;
 
-	// update the bear with this id
-	.put(function(req, res) {
-		Bear.findById(req.params.bear_id, function(err, bear) {
-
-			if (err)
-				res.send(err);
-
-			bear.name = req.body.name;
-			bear.save(function(err) {
-				if (err)
-					res.send(err);
-
-				res.json({ message: 'Bear updated!' });
-			});
-
-		});
-	})
-
-	// delete the bear with this id
-	.delete(function(req, res) {
-		Bear.remove({
-			_id: req.params.bear_id
-		}, function(err, bear) {
-			if (err)
-				res.send(err);
-
-			res.json({ message: 'Successfully deleted' });
-		});
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("vuelos");
+      var query = { fecha: req.params.fecha, origen: req.params.origen, destino: req.params.destino };
+      dbo.collection("vuelos").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        myResult = result;
+        db.close();
+      });
+    });
+    res.json(myResult);
 	});
 
+  app.get("/vuelos/:fecha/:origen", (req, res)=>{
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    var myResult;
 
-*/// REGISTER OUR ROUTES -------------------------------
-//app.use('/api', router);
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("vuelos");
+      var query = { fecha: req.params.fecha, origen: req.params.origen };
+      dbo.collection("vuelos").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(result);
+        myResult = result;
+        db.close();
+      });
+    });
+    res.json(myResult);
+	});
 
-// START THE SERVER
-// =============================================================================
+  app.get("/vuelos/:idVuelo", (req, res)=>{
+    var MongoClient = require('mongodb').MongoClient;
+    var url = "mongodb://localhost:27017/";
+    var disp = 0;
+
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("vuelos");
+      var query = { id: parseInt(req.params.idVuelo) };
+      dbo.collection("vuelos").find(query).toArray(function(err, result) {
+        if (err) throw err;
+        console.log(parseInt(result[0].disponibles)-1);
+        disp = parseInt(result[0].disponibles) - 1;
+        db.close();
+      });
+    });
+
+    MongoClient.connect(url, function(err, db) {
+      if (err) throw err;
+      var dbo = db.db("vuelos");
+      var myquery = { id: req.params.idVuelo };
+      var newvalues = { $set: { disponibles:  disp } };
+      dbo.collection("vuelos").updateOne(myquery, newvalues, function(err, res) {
+        if (err) throw err;
+        console.log("1 document updated");
+        db.close();
+      });
+    });
+  });
+
 app.listen(port);
-console.log('Magic happens on port ' + port);
+console.log('Port ' + port);
